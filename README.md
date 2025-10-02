@@ -1,4 +1,3 @@
-
 # 💡 MVP IoT Industrial - Hermes Reply
 
 Este projeto integra sensores (ESP32/simulação), ingestão de dados, persistência em banco relacional, aplicação de Machine Learning e visualização com alertas, consolidando as entregas anteriores em um pipeline fim-a-fim.
@@ -38,15 +37,22 @@ Este projeto integra sensores (ESP32/simulação), ingestão de dados, persistê
 - Dados persistidos com integridade relacional
 - Visualizações construídas em notebook e app leve
 
-## 📺 Demonstração (YouTube)
+### Evidências de Execução
 
-[Inserir link do vídeo não listado]
+**Coleta / Simulação (Serial Monitor)**
+![Serial Monitor](ingest/monitor_serial_print.png)
+
+**Consulta ao Banco (SELECT)**
+![SELECT no Banco](db/query_result_print.png)
+
+**Modelo de ML — Previsão vs Real (MAE)**
+![Previsão vs Real](ml/prediction_vs_real.png)
+
+**Dashboard com Alerta (Threshold)**
+![Alerta no Dashboard](dashboard/dashboard_alert_print.png)
+
 
 ## 👥 Equipe
-
-Este projeto foi desenvolvido como parte do desafio Hermes Reply — Sprint 3 do curso de Engenharia de Software.
-
-**Integrantes:**
 
 - Otávio Custódio — RM: 565606  
 - Matheus Parra — RM: 561907  
