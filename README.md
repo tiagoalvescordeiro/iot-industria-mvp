@@ -1,60 +1,61 @@
-# MVP Indústria 4.0 — Hermes Reply Challenge
 
-**Fluxo end-to-end (simulado):** ESP32/Sim → API (Flask) → PostgreSQL → ML (sklearn) → Dashboard (Streamlit) com alerta por _threshold_.
+# 💡 MVP IoT Industrial - Hermes Reply
 
-## Como rodar (opção 1: Docker Compose — recomendado)
-1) Instale Docker e Docker Compose (v2+).
-2) Copie `.env.example` para `.env` e ajuste se necessário.
-3) Suba os serviços:
-```bash
-docker compose up -d --build
-```
-4) Crie as tabelas no PostgreSQL:
-```bash
-docker compose exec api python scripts/init_db.py
-```
-5) Inicie a ingestão simulada (gera leituras a cada 5s):
-```bash
-docker compose exec api python scripts/sender.py
-```
-6) (Opcional) Treine o modelo e gere `model.pkl`:
-```bash
-docker compose exec api python ml/train_or_predict.py --mode train
-```
-7) Abra o dashboard Streamlit (porta 8501):
-- Acesse: http://localhost:8501
+Este projeto integra sensores (ESP32/simulação), ingestão de dados, persistência em banco relacional, aplicação de Machine Learning e visualização com alertas, consolidando as entregas anteriores em um pipeline fim-a-fim.
 
-## Como rodar (opção 2: local)
-Crie um _virtualenv_, instale `requirements.txt`, suba um PostgreSQL local e exporte as variáveis do `.env`. Rode:
-```bash
-python api/app.py
-python scripts/init_db.py
-python scripts/sender.py
-streamlit run dashboard/app.py
+## 📁 Estrutura do Repositório
+
+```
+📦iot-industria-mvp/
+ ┣ 📂api/              → Backend básico com endpoints de ingestão (simulado)
+ ┣ 📂db/               → Scripts SQL de criação e carga de banco de dados
+ ┣ 📂ml/               → Notebooks e scripts de Machine Learning
+ ┣ 📂mqtt/             → Lógica de simulação/ingestão via MQTT (com ESP32 ou mock)
+ ┣ 📂dashboard/        → Aplicação de dashboard (ex: Streamlit)
+ ┣ 📂docs/             → Diagrama de arquitetura (.drawio/.png)
+ ┣ 📜README.md         → Instruções do projeto
 ```
 
-## Pastas
-- `docs/arquitetura/` — diagrama (.drawio placeholder) e PNG (adicione seu export do app.diagrams.net).
-- `api/` — API Flask para ingestão e leitura.
-- `db/` — scripts SQL.
-- `ml/` — treino/inferência simples com sklearn.
-- `dashboard/` — Streamlit com KPIs e alerta (threshold).
-- `scripts/` — utilitários (init_db, sender simulado).
-- `.github/workflows/` — CI (lint básico).
+## 🚀 Execução
 
-## Pipeline
-1. **Ingestão:** `scripts/sender.py` envia JSON para `POST /ingest`.
-2. **Armazenamento:** API insere no Postgres (`readings`).
-3. **ML:** `ml/train_or_predict.py` lê do banco, treina modelo (RandomForestRegressor) e salva `model.pkl`.
-4. **Visualização:** `dashboard/app.py` lê do banco, mostra KPIs e alerta quando `temperature > THRESHOLD`.
+1. **Ingestão**: simulação com sensor ESP32 ou mock → `/mqtt`
+2. **Carga no Banco**: scripts SQL → `/db`
+3. **ML**: notebook com inferência e visualização → `/ml`
+4. **Dashboard**: Streamlit ou notebook com alertas → `/dashboard`
 
-## Vídeo
-Grave um vídeo de até 5 min mostrando: arquitetura → ingestão → banco → ML → dashboard/alerta. Publique como "não listado" no YouTube e inclua o link acima.
+## 📊 Tecnologias
 
+- ESP32 (Wokwi ou PlatformIO)
+- Python (pandas, scikit-learn, matplotlib)
+- SQLite / MySQL
+- Streamlit / Dash
+- MQTT / HTTP (simulado)
 
-## Ingestao via MQTT (opcional)
-1) Suba os serviços incluindo Mosquitto e o bridge:
-```bash
+## 🧠 Decisões Técnicas
+
+- Utilização de thresholds simples para alertas
+- Inferência por batch para facilitar reprodutibilidade
+- Dados persistidos com integridade relacional
+- Visualizações construídas em notebook e app leve
+
+## 📺 Demonstração (YouTube)
+
+[Inserir link do vídeo não listado]
+
+## 👥 Equipe
+
+Este projeto foi desenvolvido como parte do desafio Hermes Reply — Sprint 3 do curso de Engenharia de Software.
+
+**Integrantes:**
+
+- Otávio Custódio — RM: 565606  
+- Matheus Parra — RM: 561907  
+- Tiago Alves Cordeiro — RM: 561791  
+- Thiago Henrique Pereira de Almeida Santos — RM: 563327  
+- Leandro Arthur Marinho Ferreira — RM: 565240
+
+🔗 [Acesse o repositório oficial no GitHub](https://github.com/tiagoalvescordeiro/Enterprise-Challenge—Sprint-3—Reply)
+
 docker compose up -d --build
 ```
 2) Inicie o **bridge** (subscritor) automaticamente pelo compose e publique leituras de teste:
