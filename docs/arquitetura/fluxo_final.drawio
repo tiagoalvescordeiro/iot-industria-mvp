@@ -1,0 +1,34 @@
+<mxfile host="app.diagrams.net" modified="2025-10-01T00:00:00.000Z" agent="python" version="22.0.3">
+  <diagram id="iot-arch" name="Arquitetura MVP">
+    <mxGraphModel dx="1324" dy="744" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="n1" value="ESP32 / Simulador (Wokwi/PlatformIO)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="60" y="160" width="240" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="n2" value="Transporte (HTTP/MQTT)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="340" y="160" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="n3" value="API Flask /ingest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="600" y="160" width="220" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="n4" value="Banco Relacional (PostgreSQL)&#xa;Tabela: readings(sensor_id, timestamp, temperature, target)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="860" y="140" width="300" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="n5" value="ML (RandomForestRegressor)&#xa;Treino/Inferencia (MAE)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="140" width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="n6" value="Dashboard (Streamlit)&#xa;KPIs + Alerta Threshold" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="320" width="260" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="n1" target="n2" style="endArrow=classic;strokeWidth=2;"/>
+        <mxCell id="e2" edge="1" parent="1" source="n2" target="n3" style="endArrow=classic;strokeWidth=2;"/>
+        <mxCell id="e3" edge="1" parent="1" source="n3" target="n4" style="endArrow=classic;strokeWidth=2;"/>
+        <mxCell id="e4" edge="1" parent="1" source="n4" target="n5" style="endArrow=classic;strokeWidth=2;"/>
+        <mxCell id="e5" edge="1" parent="1" source="n5" target="n6" style="endArrow=classic;strokeWidth=2;"/>
+        <mxCell id="e6" edge="1" parent="1" source="n4" target="n6" style="endArrow=classic;dashed=1;strokeWidth=2;"/>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,14 @@
+flask
+pandas
+scikit-learn
+psycopg2-binary
+SQLAlchemy
+streamlit
+matplotlib
+requests
+python-dotenv
+
+paho-mqtt
+
+pytest
+flake8

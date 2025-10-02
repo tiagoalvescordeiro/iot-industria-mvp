@@ -1,0 +1,2 @@
+Adicione aqui seu diagrama .drawio exportado do app.diagrams.net e um PNG.
+Sugestão de blocos: ESP32/Wokwi → (HTTP/MQTT) → API Flask → DB (Postgres) → ML → Dashboard (Streamlit) → Alertas.

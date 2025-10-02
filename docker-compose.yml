@@ -1,0 +1,71 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: iot
+      POSTGRES_USER: iot_user
+      POSTGRES_PASSWORD: iot_pass
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iot_user -d iot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: ./api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+
+  streamlit:
+    build: ./dashboard
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+
+volumes:
+  pgdata:
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mqtt/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h localhost -t test -C 1 -W 3 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mqtt_bridge:
+    build: ./scripts/mqtt_bridge
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_started
+    env_file: .env
+    environment:
+      MQTT_BROKER_HOST: mosquitto
+      MQTT_BROKER_PORT: 1883
+      MQTT_TOPIC: iot/fase4/readings
+      API_URL: http://api:5000/ingest
+    volumes:
+      - .:/app
